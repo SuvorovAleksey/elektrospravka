@@ -1,0 +1,55 @@
+{
+  "id": "elektrospravka-pwa",
+  "name": "ЭлектроСправка — База знаний I–V групп",
+  "short_name": "ЭлектроСправка",
+  "description": "Официальный интерактивный справочник вопросов и ответов по электробезопасности для I–V групп допуска. Работает 100% автономно без интернета.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#fbfcfe",
+  "theme_color": "#00629e",
+  "lang": "ru",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "reference",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "icons/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

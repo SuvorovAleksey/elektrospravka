@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Электробезопасность РФ — Справочник вопросов и ответов для аттестации (Группы I-V)</title>
+  <meta name="description" content="Интерактивный справочник по электробезопасности в стиле Google Material Design 3. Официальные вопросы и ответы для проверки знаний на I, II, III, IV, V группы допуска по ПТЭЭП, ПОТЭЭ и ПУЭ.">
+  <meta name="keywords" content="электробезопасность, группы по электробезопасности, 1 группа, 2 группа, 3 группа, 4 группа, 5 группа, ростехнадзор, птээп, пуэ, билеты, вопросы и ответы">
+  
+  <!-- Google Material Design 3 Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- PWA & Mobile Meta Tags (iOS & Android Offline Support) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ЭлектроСправка">
+  <meta name="theme-color" content="#00629e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111418" media="(prefers-color-scheme: dark)">
+  
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="shortcut icon" href="icons/favicon-32.png">
+</head>
+<body>
+  <!-- Затемнение фона при открытом меню (Scrim) -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- M3 Top App Bar (Верхняя панель с закрепленным поиском) -->
+  <header class="header">
+    <div class="header-container">
+      <div class="header-left">
+        <button id="burger-btn" class="burger-btn" aria-label="Открыть меню тематик" title="Категории и темы">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <a href="#" class="logo" title="ЭлектроСправка">
+          <img src="icons/logo.png" alt="Логотип ЭлектроСправка" class="logo-img" width="34" height="34">
+          <div class="logo-text">
+            <span class="logo-title">ЭлектроСправка</span>
+            <span class="logo-subtitle">База знаний I–V групп</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- M3 Docked / Sticky Search Bar -->
+      <div class="header-search">
+        <div class="search-input-box">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Поиск по вопросу, слову, норме (например: 1000 В, СЛР, наряд, перчатки)..." 
+            autocomplete="off"
+            autofocus
+          >
+          <button id="clear-search-btn" class="clear-btn" aria-label="Очистить поиск" title="Очистить">
+            <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+          </button>
+          <span class="search-hotkey" title="Горячая клавиша: нажмите / для быстрого поиска">/</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="pwa-install-header-btn" class="icon-btn pwa-header-btn" aria-label="Установить приложение" title="Установить приложение на телефон / ПК">
+          <span class="material-symbols-outlined">install_mobile</span>
+        </button>
+        <button id="theme-toggle-btn" class="icon-btn" aria-label="Сменить тему" title="Переключить тему">
+          <span class="material-symbols-outlined light-icon">light_mode</span>
+          <span class="material-symbols-outlined dark-icon">dark_mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- M3 Navigation Drawer (Боковое меню) -->
+  <aside id="side-drawer" class="side-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span>Категории и темы</span>
+      </div>
+      <button id="drawer-close-btn" class="close-btn" aria-label="Закрыть меню">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <nav class="drawer-nav">
+      <div class="nav-section-title">Группы допуска</div>
+      <ul class="nav-list">
+        <li>
+          <button class="nav-item active" data-group="all">
+            <span class="nav-badge all-badge">Все</span>
+            <span class="nav-name">Все темы и группы</span>
+            <span class="nav-count" id="count-all">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-group="1">
+            <span class="nav-badge g1-badge">I группа</span>
+            <span class="nav-name">Неэлектротехнический персонал</span>
+            <span class="nav-count" id="count-g1">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-group="2">
+            <span class="nav-badge g2-badge">II группа</span>
+            <span class="nav-name">Электротехнологический персонал</span>
+            <span class="nav-count" id="count-g2">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-group="3">
+            <span class="nav-badge g3-badge">III группа</span>
+            <span class="nav-name">Самостоятельные работы до 1000 В</span>
+            <span class="nav-count" id="count-g3">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-group="4">
+            <span class="nav-badge g4-badge">IV группа</span>
+            <span class="nav-name">Ответственные за электрохозяйство</span>
+            <span class="nav-count" id="count-g4">0</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-item" data-group="5">
+            <span class="nav-badge g5-badge">V группа</span>
+            <span class="nav-name">Электроустановки любого напряжения</span>
+            <span class="nav-count" id="count-g5">0</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="nav-section-title">Справочные нормативы</div>
+      <ul class="nav-list doc-links">
+        <li>
+          <a href="#quick-docs" class="nav-subitem" id="btn-show-rules">
+            <span class="material-symbols-outlined">menu_book</span>
+            <span>Нормативная база (ПТЭЭП, ПОТЭЭ, ПУЭ)</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-section-title">Система и установка</div>
+      <ul class="nav-list doc-links">
+        <li>
+          <button class="nav-subitem" id="btn-show-pwa-modal">
+            <span class="material-symbols-outlined">install_mobile</span>
+            <span>Установка офлайн (iOS / Android)</span>
+            <span class="version-pill pwa-pill">PWA</span>
+          </button>
+        </li>
+        <li>
+          <button class="nav-subitem changelog-btn" id="btn-show-changelog">
+            <span class="material-symbols-outlined">history</span>
+            <span>История изменений</span>
+            <span class="version-pill">v1.9.5</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="drawer-footer">
+      <div class="drawer-version-row">
+        <span>Версия: <strong>v1.9.5</strong> (PWA / Offline)</span>
+        <span class="drawer-time">29.09.2026, 18:30</span>
+      </div>
+      <p class="drawer-info">Работает 100% автономно на смартфонах и ПК без интернета.</p>
+    </div>
+  </aside>
+
+  <!-- Главный блок страницы -->
+  <main class="main-content">
+    
+    <!-- Hero / M3 Подсказки и фильтры -->
+    <section class="search-section" id="hero-section">
+      <div class="section-container">
+        <h1 class="main-heading">Справочник по электробезопасности</h1>
+        <p class="main-subheading">Официальные экзаменационные вопросы и ответы для проверки знаний на I–V группы допуска</p>
+        
+        <!-- M3 Suggestion Chips (Быстрые запросы) -->
+        <div class="search-hints">
+          <span class="hint-label">Быстрые запросы:</span>
+          <button class="hint-tag" data-tag="наряд-допуск">наряд-допуск</button>
+          <button class="hint-tag" data-tag="первая помощь">первая помощь</button>
+          <button class="hint-tag" data-tag="испытания перчаток">перчатки</button>
+          <button class="hint-tag" data-tag="снятие напряжения">снятие напряжения</button>
+          <button class="hint-tag" data-tag="1000 В">1000 В</button>
+        </div>
+
+        <!-- M3 Filter Chips (Группы допуска) -->
+        <div class="quick-filters">
+          <button class="filter-chip active" data-group="all">Все группы</button>
+          <button class="filter-chip" data-group="1">I группа</button>
+          <button class="filter-chip" data-group="2">II группа</button>
+          <button class="filter-chip" data-group="3">III группа</button>
+          <button class="filter-chip" data-group="4">IV группа</button>
+          <button class="filter-chip" data-group="5">V группа</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция результатов поиска / вопросов -->
+    <section class="results-section">
+      <div class="section-container">
+        
+        <!-- Панель управления результатами -->
+        <div class="results-header">
+          <div class="results-info">
+            <span id="results-count-text">Загрузка вопросов...</span>
+            <span id="active-filter-badge" class="active-filter-badge">Все группы</span>
+          </div>
+          <div class="results-actions">
+            <button id="expand-all-btn" class="action-link-btn">Развернуть все</button>
+            <span class="divider">|</span>
+            <button id="collapse-all-btn" class="action-link-btn">Свернуть все</button>
+          </div>
+        </div>
+
+        <!-- Контейнер для карточек вопросов -->
+        <div id="questions-container" class="questions-list">
+          <!-- Генерируется через JS -->
+        </div>
+
+        <!-- Блок «Ничего не найдено» -->
+        <div id="no-results" class="no-results hidden">
+          <div class="no-results-icon">
+            <span class="material-symbols-outlined" style="font-size: 48px;">search_off</span>
+          </div>
+          <h3>Ничего не найдено</h3>
+          <p>Попробуйте изменить формулировку запроса или выбрать «Все группы».</p>
+          <button id="reset-search-btn" class="btn-primary">Сбросить фильтры</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Справочный блок по нормативной базе -->
+    <section id="quick-docs" class="docs-section">
+      <div class="section-container">
+        <h2 class="section-title">Основополагающие правила и нормы</h2>
+        <div class="docs-grid">
+          <div class="doc-card">
+            <div class="doc-badge">ПОТЭЭ</div>
+            <h3>Правила по охране труда при эксплуатации электроустановок</h3>
+            <p>Утверждены Приказом Минтруда РФ № 903н (с изменениями Приказа № 279н). Базовый документ по организации безопасных работ, нарядам и защитным средствам.</p>
+          </div>
+          <div class="doc-card">
+            <div class="doc-badge">ПТЭЭП</div>
+            <h3>Правила технической эксплуатации электроустановок потребителей</h3>
+            <p>Утверждены Приказом Минэнерго РФ № 811. Регламентируют организацию надежной и безопасной эксплуатации электрооборудования организаций.</p>
+          </div>
+          <div class="doc-card">
+            <div class="doc-badge">ПУЭ 7</div>
+            <h3>Правила устройства электроустановок</h3>
+            <p>Технические требования к проектированию, заземлению, защите от перенапряжений и выбору аппаратов электросетей.</p>
+          </div>
+          <div class="doc-card">
+            <div class="doc-badge">СО 153</div>
+            <h3>Инструкция по применению и испытанию средств защиты</h3>
+            <p>СО 153-34.03.603-2003. Нормы, периодичность и методики электрических и механических испытаний изолирующих средств.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- M3 Футер -->
+  <footer class="footer">
+    <div class="section-container footer-content">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <img src="icons/logo.png" alt="Логотип ЭлектроСправка" class="footer-logo-img" width="28" height="28">
+          <span>ЭлектроСправка</span>
+        </div>
+        <p class="footer-desc">Справочная система по электробезопасности, вопросам и ответам для проверки знаний в Ростехнадзоре.</p>
+      </div>
+      <div class="footer-right">
+        <p class="footer-copyright">&copy; 2026. Оформлено по стандарту Google Material Design 3.</p>
+        <p class="footer-tip">Нажмите <kbd>/</kbd> в любом месте для быстрого перехода к поиску</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- M3 Dialog: Модальное окно установки PWA офлайн -->
+  <div id="pwa-modal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="material-symbols-outlined">install_mobile</span>
+          <span>Установка приложения «ЭлектроСправка»</span>
+        </div>
+        <button id="pwa-modal-close-btn" class="close-btn" aria-label="Закрыть окно установки">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body pwa-modal-body">
+        <div class="pwa-hero-box">
+          <div class="pwa-hero-icon">
+            <span class="material-symbols-outlined">wifi_off</span>
+          </div>
+          <div>
+            <h4 class="pwa-hero-title">100% автономная работа без интернета</h4>
+            <p class="pwa-hero-desc">После установки все 594 вопроса, ответы и нормативная база будут мгновенно доступны в электрощитовых, подвалах и в авиарежиме.</p>
+          </div>
+        </div>
+
+        <!-- Кнопка быстрой установки (для Android / Chrome) -->
+        <div id="pwa-install-action-box" class="pwa-install-action-box hidden">
+          <button id="btn-trigger-pwa-install" class="pwa-primary-install-btn">
+            <span class="material-symbols-outlined">download</span>
+            <span>Установить приложение прямо сейчас</span>
+          </button>
+        </div>
+
+        <div class="pwa-platform-card">
+          <div class="pwa-platform-header">
+            <span class="platform-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="mdi-icon" aria-hidden="true" focusable="false"><path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"/></svg>
+            </span>
+            <strong>Инструкция для Apple iPhone / iPad (iOS)</strong>
+          </div>
+          <ol class="pwa-steps-list">
+            <li>Откройте этот сайт в стандартном браузере <strong>Safari</strong>.</li>
+            <li>Нажмите кнопку <strong>«Поделиться»</strong> <span class="ios-share-badge"><span class="material-symbols-outlined" style="font-size: 16px;">ios_share</span></span> в нижней панели Safari.</li>
+            <li>В открывшемся списке прокрутите вниз и выберите пункт <strong>«На экран "Домой"»</strong> (Add to Home Screen).</li>
+            <li>Нажмите <strong>«Добавить»</strong> в правом верхнем углу. Готово! Иконка приложения появится на рабочем столе.</li>
+          </ol>
+        </div>
+
+        <div class="pwa-platform-card">
+          <div class="pwa-platform-header">
+            <span class="platform-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="mdi-icon" aria-hidden="true" focusable="false"><path d="M16.61 15.15C16.15 15.15 15.77 14.78 15.77 14.32S16.15 13.5 16.61 13.5H16.61C17.07 13.5 17.45 13.86 17.45 14.32C17.45 14.78 17.07 15.15 16.61 15.15M7.41 15.15C6.95 15.15 6.57 14.78 6.57 14.32C6.57 13.86 6.95 13.5 7.41 13.5H7.41C7.87 13.5 8.24 13.86 8.24 14.32C8.24 14.78 7.87 15.15 7.41 15.15M16.91 10.14L18.58 7.26C18.67 7.09 18.61 6.88 18.45 6.79C18.28 6.69 18.07 6.75 18 6.92L16.29 9.83C14.95 9.22 13.5 8.9 12 8.91C10.47 8.91 9 9.24 7.73 9.82L6.04 6.91C5.95 6.74 5.74 6.68 5.57 6.78C5.4 6.87 5.35 7.08 5.44 7.25L7.1 10.13C4.25 11.69 2.29 14.58 2 18H22C21.72 14.59 19.77 11.7 16.91 10.14H16.91Z"/></svg>
+            </span>
+            <strong>Инструкция для Android (Chrome / Яндекс)</strong>
+          </div>
+          <ol class="pwa-steps-list">
+            <li>В браузере <strong>Chrome</strong> нажмите на три точки в правом верхнем углу <span class="material-symbols-outlined" style="font-size: 16px;">more_vert</span>.</li>
+            <li>Выберите пункт <strong>«Установить приложение»</strong> или <strong>«Добавить на главный экран»</strong>.</li>
+            <li>Подтвердите установку. Приложение появится в списке программ и на главном экране.</li>
+          </ol>
+        </div>
+
+        <div class="pwa-platform-card">
+          <div class="pwa-platform-header">
+            <span class="platform-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" class="mdi-icon" aria-hidden="true" focusable="false"><path d="M4,6H20V16H4M20,18A2,2 0 0,0 22,16V6C22,4.89 21.1,4 20,4H4C2.89,4 2,4.89 2,6V16A2,2 0 0,0 4,18H0V20H24V18H20Z"/></svg>
+            </span>
+            <strong>Инструкция для компьютеров (Windows / macOS)</strong>
+          </div>
+          <p class="pwa-text">В адресной строке Chrome / Edge нажмите иконку <strong>«Установить»</strong> справа от адреса, чтобы работать со справочником в отдельном удобном окне.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- M3 Dialog: Модальное окно истории изменений (Changelog) -->
+  <div id="changelog-modal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="material-symbols-outlined">history</span>
+          <span>История изменений (Changelog)</span>
+        </div>
+        <button id="changelog-close-btn" class="close-btn" aria-label="Закрыть историю изменений">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="modal-body changelog-body">
+        
+        <!-- Версия 1.9.5 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge current">v1.9.5 — Текущая</span>
+            <span class="changelog-date">29.09.2026, 18:30 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Расширение базы до 594 вопросов (+90 вопросов по ЭТЛ и V группе) и синхронизация нормативов</h4>
+          <ul class="changelog-list">
+            <li><strong>Масштабная интеграция экзаменационных тестов (V группа / ЭТЛ):</strong> на основе детального аудита актуальных отраслевых программ (ЭБ 1366.17 для электротехнических лабораторий и ЭБ 1260.25 для потребителей выше 1000 В) добавлено 90 новых уникальных вопросов (<code>etl-01</code> — <code>etl-90</code>). Общий объем базы вырос с 504 до <strong>594 вопросов</strong>.</li>
+            <li><strong>Специализация ЭТЛ и испытания повышенным напряжением:</strong> добавлен исчерпывающий блок требований раздела 39 ПОТЭЭ (стационарные и передвижные испытательные установки, снятие остаточного заряда разрядной штангой, ограждение зоны испытаний, измерение мегаомметром во вторичных цепях).</li>
+            <li><strong>Актуализация нормативных требований энергосистем:</strong> внедрены вопросы и термины по Правилам технической эксплуатации электростанций и сетей (Приказ Минэнерго № 1070), Правилам переключений (Приказ № 757 — бланки и программы переключений, вывод устройств РЗА), ПТЭЭП (Приказ № 811) и ПУЭ 7 изд.</li>
+            <li><strong>Синхронизация с новым Порядком первой помощи (Приказ Минздрава № 220н):</strong> интегрированы обновленные алгоритмы сердечно-легочной реанимации и поддержания проходимости дыхательных путей при сохранении признаков жизни.</li>
+            <li><strong>Исправление юридической точности (ip-222):</strong> скорректирован правильный ответ и нормативная ссылка для заземляющего контура подстанций 6-10/0,4 кВ в соответствии с п. 1.7.98 ПУЭ.</li>
+            <li><strong>Унификация стиля иконок платформ (Material Design Icons):</strong> заменены системные цветные эмодзи платформ (Apple, Android, ПК) в окне установки на векторные пиктограммы MDI (<code>mdi-apple</code>, <code>mdi-android</code>, <code>mdi-laptop</code>) в аккуратных контейнерах Material 3.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.9.4 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.9.4</span>
+            <span class="changelog-date">29.09.2026, 18:00 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Полная адаптация и исправление офлайн-кэширования на Apple iOS (Safari PWA)</h4>
+          <ul class="changelog-list">
+            <li><strong>Устранение специфических сбоев WebKit:</strong> переработан перехватчик сетевых запросов Service Worker — устранены ошибки режима навигации (<code>mode: 'navigate'</code>), приводившие к сбою при открытии страницы из кэша на iPhone.</li>
+            <li><strong>Надежное пофайловое кэширование:</strong> механизм предварительной загрузки переведен на раздельный сбор ресурсов (<code>Promise.allSettled</code>), исключающий аннулирование кэша при микросбоях сети.</li>
+            <li><strong>Мгновенная регистрация Service Worker:</strong> устранена задержка регистрации при быстром событии <code>load</code>, добавлен автоматический захват управления клиентами (<code>clients.claim()</code>) и уведомление о готовности офлайн-режима.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.9.3 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.9.3</span>
+            <span class="changelog-date">29.09.2026, 17:45 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Приоритетное ранжирование результатов поиска (вопросы ➔ ответы)</h4>
+          <ul class="changelog-list">
+            <li><strong>Приоритет совпадений в вопросах:</strong> при вводе поискового запроса карточки с совпадением в тексте вопроса теперь всегда выводятся первыми, а вопросы с совпадениями только в ответах — ниже.</li>
+            <li><strong>Информативные бейджи типа совпадения:</strong> в заголовке каждой карточки при поиске отображается аккуратный индикатор (<code>В вопросе</code>, <code>В ответе</code> или <code>В вопросе и ответе</code>) для мгновенной ориентации.</li>
+            <li><strong>Детализированный счетчик результатов:</strong> в панели поиска выводится раздельный подсчет совпадений (например, <em>«Найдено: 25 (в вопросах: 13, в ответах: 12)»</em>).</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.9.2 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.9.2</span>
+            <span class="changelog-date">29.09.2026, 17:10 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Оптимизация мобильного тестирования и надежности HTTPS-туннеля</h4>
+          <ul class="changelog-list">
+            <li><strong>Исправление запуска через start_mobile_test.bat:</strong> устранена ошибка привязки рабочих директорий Windows, реализован запуск встроенного диспетчера сервера с автоочисткой предыдущих зависших процессов.</li>
+            <li><strong>Двойной режим тестирования:</strong> вывод прямого защищенного HTTPS-адреса с QR-кодом для установки PWA на iOS/Android и альтернативного адреса локальной сети Wi-Fi для мгновенного отклика без интернета.</li>
+            <li><strong>Автоматическая проверка доступности:</strong> система предварительно опрашивает сетевой маршрут перед выводом QR-кода, гарантируя 100% готовность сервера к приему входящих запросов со смартфона.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.9.1 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.9.1</span>
+            <span class="changelog-date">29.09.2026, 14:45 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Стандартизация наименований групп допуска римскими цифрами (I–V)</h4>
+          <ul class="changelog-list">
+            <li><strong>Римская нумерация в карточках вопросов:</strong> на всех карточках базы знаний бейджи групп приведены в строгое соответствие с государственным стандартом аттестации и ПТЭЭП — арабские цифры заменены на канонические римские (<code>I ГРУППА</code>, <code>II ГРУППА</code>, <code>III ГРУППА</code>, <code>IV ГРУППА</code>, <code>V ГРУППА</code>).</li>
+            <li><strong>Нормализация структуры базы данных:</strong> все вопросы в файлах базы знаний приведены к единому стандарту обозначения квалификационных групп.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.9.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.9.0</span>
+            <span class="changelog-date">29.09.2026, 14:35 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Внедрение нового кругового логотипа и обновление Favicon для сайта</h4>
+          <ul class="changelog-list">
+            <li><strong>Новый фирменный логотип:</strong> золотой глиф молнии заменен на официальную круговую эмблему с центральной белой молнией на синем фоне и динамическими стрелками электробезопасности. Логотип гармонично интегрирован в верхнюю панель и футер.</li>
+            <li><strong>Полный пакет Favicon и PWA-иконок:</strong> на базе нового знака сгенерированы и подключены все форматы фавиконов (<code>favicon.ico</code>, 32x32, 96x96, SVG), а также иконки для мобильных платформ (<code>apple-touch-icon.png</code>, 192x192, 512x512 и адаптивная маскируемая иконка).</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.8.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.8.0</span>
+            <span class="changelog-date">29.09.2026, 14:15 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Оптимизация мобильного поиска, скрытие кнопки установки и блокировка нежелательного зума</h4>
+          <ul class="changelog-list">
+            <li><strong>Скрытие кнопки установки из шапки на смартфонах:</strong> иконка установки приложения убрана из верхнего бара на мобильных разрешениях (≤768px), чтобы не перегружать шапку и освободить максимальную ширину для удобной строки поиска. Доступ к установке сохраняется через боковое меню и нативные системные баннеры.</li>
+            <li><strong>Автоматическое скрытие Hero-блока при поиске:</strong> при начале ввода любого текста в поисковую строку заголовок, описание, подсказки и фильтры плавно скрываются, поднимая результаты поиска вплотную к зафиксированной строке поиска. При очистке поля блок мгновенно возвращается.</li>
+            <li><strong>Полный запрет нежелательного зума на мобильных устройствах:</strong> зафиксирован масштаб области просмотра (<code>maximum-scale=1.0, user-scalable=no, viewport-fit=cover</code>), установлен базовый размер шрифта поля ввода 16px (блокирует автоматическое приближение в Safari на iOS) и отключены жесты случайного масштабирования (<code>touch-action: pan-x pan-y</code>). Страницы прокручиваются плавно и без сдвигов.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.7.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.7.0</span>
+            <span class="changelog-date">29.09.2026, 12:55 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Единый стиль логотипа, удаление блока скорой помощи и очистка внешних ссылок</h4>
+          <ul class="changelog-list">
+            <li><strong>Единый логотип в шапке и подвале:</strong> унифицирован фирменный стиль бренда — акцентный символ золотой молнии <code>⚡</code> и заголовок «ЭлектроСправка» приведены к строгому единообразию в шапке, футере и мобильной версии.</li>
+            <li><strong>Удаление вспомогательного блока первой помощи:</strong> полностью убран статический блок алгоритмов скорой помощи из структуры страницы и навигации. При этом все экзаменационные вопросы по действиям при электротравмах и Приказу Минздрава России № 220н сохранены в поисковой базе знаний.</li>
+            <li><strong>Очистка истории изменений от сторонних ссылок:</strong> из журнала версий удалены все упоминания сторонних сайтов и URL-адресов; источники стандартизированы под официальную базу Ростехнадзора и Единого портала тестирования (ЕПТ).</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.6.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.6.0</span>
+            <span class="changelog-date">29.09.2026, 12:45 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Полноценная поддержка PWA (Progressive Web App) и 100% офлайн-режим на iOS и Android</h4>
+          <ul class="changelog-list">
+            <li><strong>Автономная работа без интернета (Service Worker):</strong> разработан и подключен <code>sw.js</code>, реализующий стратегию кэширования Cache-First. Все 504 вопроса, база данных, стили, шрифты и иконки сохраняются в память устройства и работают в подвалах, электроустановках и авиарежиме.</li>
+            <li><strong>Web App Manifest:</strong> создан <code>manifest.json</code> с настройками полноэкранного автономного режима (<code>display: standalone</code>), цветовой схемой Material 3 и адаптивными иконками.</li>
+            <li><strong>Установка на iOS (iPhone/iPad):</strong> добавлены нативные мета-теги Apple (<code>apple-mobile-web-app-capable</code>, <code>apple-touch-icon</code>). Установка в 2 клика через «На экран "Домой"» без необходимости в App Store.</li>
+            <li><strong>Установка на Android и ПК:</strong> перехват события <code>beforeinstallprompt</code>, интерактивная кнопка быстрой установки в шапке и боковом меню.</li>
+            <li><strong>Интерактивное руководство по установке:</strong> добавлено модальное окно с пошаговыми инструкциями для iOS, Android и десктопа.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.5.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.5.0</span>
+            <span class="changelog-date">29.09.2026, 12:05 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Интеграция отраслевой экзаменационной базы (V группа, 412 вопросов) и исправление 4 юридических ошибок</h4>
+          <ul class="changelog-list">
+            <li><strong>Анализ и аудит отраслевой экзаменационной базы:</strong> полностью выгружена и проанализирована база экзаменационных вопросов (42 билета / 412 вопросов) для проверки знаний на V группу электробезопасности.</li>
+            <li><strong>Добавлено 5 новых экзаменационных вопросов (база расширена до 504 вопросов):</strong>
+              <ul>
+                <li><em>Индекс специальных работ под напряжением 6-20 кВ:</em> специальный индекс <code>И3</code> в удостоверении работника (Приложение № 2 ПОТЭЭ);</li>
+                <li><em>Обязательность записи в оперативном журнале:</em> фиксация допуска на подготовленное рабочее место (п. 11.6 ПОТЭЭ);</li>
+                <li><em>Группа ответственного за электрохозяйство до 1000 В:</em> присваивается <code>IV группа</code> (п. 10 ПТЭЭП № 811);</li>
+                <li><em>Срок комплексного опробования ЛЭП:</em> непрерывная работа под нагрузкой в течение <code>24 часов</code> (п. 24 ПТЭЭП № 811);</li>
+                <li><em>Рабочие места при стажировке ремонтного персонала:</em> свое рабочее место и/или полигоны и мастерские (п. 45 Приказа Минэнерго № 796).</li>
+              </ul>
+            </li>
+            <li><strong>Устранение критических расхождений в нормативной базе:</strong>
+              <ul>
+                <li><em>Снятие предохранителей выше 1000 В:</em> исправлен ответ — обязательны <code>изолирующие клещи (штанга)</code> с перчатками и СИЗ лица (п. 3.9 ПОТЭЭ);</li>
+                <li><em>Инструктаж по распоряжению:</em> отдающий распоряжение инструктирует производителя (наблюдающего) или непосредственного исполнителя (п. 10.7 ПОТЭЭ);</li>
+                <li><em>Деблокирование при аварии и отказе выключателя:</em> разрешение выдает диспетчерский персонал, руководящий ликвидацией нарушения (п. 123 Приказа № 757);</li>
+                <li><em>Первая помощь при наличии дыхания:</em> при сохраненном дыхании СЛР не проводится — пострадавшему придается <code>устойчивое боковое положение</code> (Приказ Минздрава № 220н).</li>
+              </ul>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.4.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.4.0</span>
+            <span class="changelog-date">29.09.2026, 11:50 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Закрепление строки поиска в шапке (Sticky Header Search)</h4>
+          <ul class="changelog-list">
+            <li><strong>Перенос поиска в Top App Bar:</strong> поисковая строка перенесена непосредственно в верхнюю панель сайта и надежно зафиксирована (<code>position: sticky; top: 0; z-index: 50</code>). Поиск всегда под рукой при прокрутке любого количества вопросов.</li>
+            <li><strong>M3 Search Bar & Hotkey:</strong> эргономичный контейнер-пилюля со скруглением 28dp, иконкой лупы, кнопкой мгновенной очистки <code>✕</code> и индикатором горячей клавиши <kbd>/</kbd>.</li>
+            <li><strong>Адаптивный дизайн:</strong> автоматическая адаптация хедера на смартфонах и планшетах (компактная эмблема без перегрузки строки, сохранение удобного поля ввода).</li>
+            <li><strong>Оптимизация Hero-секции:</strong> компактное отображение быстрых запросов (наряд-допуск, перчатки, СЛР) и M3 фильтр-чипов I–V групп.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.3.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.3.0</span>
+            <span class="changelog-date">29.09.2026, 11:30 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Редизайн по канонам Google Material Design 3 (Material You)</h4>
+          <ul class="changelog-list">
+            <li><strong>M3 Design Tokens:</strong> полная адаптация под дизайн-систему Google Material 3 (динамические цветовые роли surface-container 1–5, токенизированная типографика Roboto, система скруглений от 4dp до 28dp).</li>
+            <li><strong>M3 Search Bar:</strong> поисковая строка переработана в плавающий контейнер-пилюлю (Pill Search Bar, высота 56dp, скругление 28dp).</li>
+            <li><strong>M3 Navigation Drawer:</strong> боковое меню со скруглением правого края 28dp и акцентными индикаторами выбранных разделов.</li>
+            <li><strong>M3 Filter Chips:</strong> интерактивные чипы переключения групп с плавным переходом состояний.</li>
+            <li><strong>Иконки Material Symbols:</strong> подключен официальный векторный набор символов Google.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.2.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.2.0</span>
+            <span class="changelog-date">29.09.2026, 11:20 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Сверка свежих обновлений и расширение базы до 499 вопросов</h4>
+          <ul class="changelog-list">
+            <li><strong>Проверка обновлений экзаменационных тестов:</strong> выполнен мониторинг актуальных официальных вопросов Ростехнадзора.</li>
+            <li><strong>Интеграция новых билетов по всем группам:</strong>
+              <ul>
+                <li><em>II группа (Тест 206):</em> загружены билеты 1, 2, 3 (+16 вопросов по оборудованию до 1000 В);</li>
+                <li><em>III группа (Тест 208):</em> загружены билеты 1, 2, 3 (+14 вопросов по нарядам и подготовке мест);</li>
+                <li><em>IV группа (Тест 210):</em> загружены билеты 1, 2, 3 (+8 вопросов по ответственности и проверке знаний);</li>
+                <li><em>V группа (Тест 212):</em> загружены билеты 6, 7, 8 (+12 вопросов);</li>
+                <li><em>Оказание первой помощи (Тест 265):</em> загружен билет 1 (+5 вопросов по новому Приказу Минздрава № 220н).</li>
+              </ul>
+            </li>
+            <li><strong>Итог базы знаний:</strong> 499 официальных экзаменационных вопросов с мгновенным поиском и правовой верификацией.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.1.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.1.0</span>
+            <span class="changelog-date">29.09.2026, 11:10 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Масштабное наполнение базы (444 вопроса) и аудит расхождений нормативов</h4>
+          <ul class="changelog-list">
+            <li><strong>Интеграция официальных вопросов:</strong> обработаны и загружены тестовые билеты из официальных материалов Ростехнадзора и Единого портала тестирования (ЕПТ).</li>
+            <li><strong>Юридический анализ расхождений:</strong> утверждены точные формулировки по ПТЭЭП № 811, ПОТЭЭ № 903н, Приказу № 796 и новому Приказу Минздрава № 220н.</li>
+          </ul>
+        </article>
+
+        <!-- Версия 1.0.0 -->
+        <article class="changelog-entry">
+          <div class="changelog-header-row">
+            <span class="changelog-badge">v1.0.0</span>
+            <span class="changelog-date">29.09.2026, 09:45 (МСК)</span>
+          </div>
+          <h4 class="changelog-entry-title">Первоначальный запуск системы «ЭлектроСправка»</h4>
+          <ul class="changelog-list">
+            <li>Создана SPA-архитектура с быстрым поиском, светлой/темной темами и нормативным справочником.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Всплывающее уведомление (Toast / Snackbar) при копировании -->
+  <div id="toast" class="toast">Ответ скопирован в буфер обмена</div>
+
+  <!-- База данных вопросов (работает автономно и в локальном режиме file://, и на сервере) -->
+  <script src="data/questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

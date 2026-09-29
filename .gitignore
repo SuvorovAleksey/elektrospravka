@@ -1,0 +1,6 @@
+# Temporary and cache files
+__pycache__/
+*.pyc
+.system_generated/
+scratch/
+*.log
