@@ -171,7 +171,11 @@ function formatGroupRoman(group) {
 function updateCounts() {
   const counts = { all: questionsData.length, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   questionsData.forEach(item => {
-    if (counts[item.group] !== undefined) {
+    if (Array.isArray(item.groups)) {
+      item.groups.forEach(g => {
+        if (counts[g] !== undefined) counts[g]++;
+      });
+    } else if (counts[item.group] !== undefined) {
       counts[item.group]++;
     }
   });
@@ -208,8 +212,9 @@ function applyFiltersAndRender() {
   for (let i = 0; i < questionsData.length; i++) {
     const item = questionsData[i];
 
-    // Проверка по группе
-    const matchesGroup = (currentGroup === 'all' || String(item.group) === currentGroup);
+    // Проверка по группе (поддержка одиночной группы и массива групп)
+    const matchesGroup = (currentGroup === 'all' || 
+      (Array.isArray(item.groups) ? item.groups.includes(Number(currentGroup)) : String(item.group) === currentGroup));
     if (!matchesGroup) continue;
 
     // Без поискового запроса — сохраняем исходный порядок
@@ -363,7 +368,9 @@ function renderQuestions(items, query) {
         <button class="question-header" aria-expanded="${isExpanded}">
           <div class="question-title-wrap">
             <div class="card-top-meta">
-              <span class="group-tag group-${item.group}">${formatGroupRoman(item.group)} ГРУППА</span>
+              ${Array.isArray(item.groups)
+                ? item.groups.map(g => `<span class="group-tag group-${g}">${formatGroupRoman(g)} ГРУППА</span>`).join(' ')
+                : `<span class="group-tag group-${item.group}">${formatGroupRoman(item.group)} ГРУППА</span>`}
               ${matchBadgeHtml}
             </div>
             <h2 class="question-text">${highlightedQuestion}</h2>

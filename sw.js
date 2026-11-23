@@ -1,10 +1,10 @@
 /**
  * Service Worker для «ЭлектроСправка» (PWA)
- * Версия: v1.9.5
+ * Версия: v1.9.6
  * Полная поддержка офлайн-режима на iOS Safari (WebClip/PWA) и Android Chrome.
  */
 
-const CACHE_NAME = 'elektrospravka-v1.9.5';
+const CACHE_NAME = 'elektrospravka-v1.9.6';
 const FONT_CACHE_NAME = 'elektrospravka-fonts-v1';
 
 // Базовые ресурсы приложения для предварительного кэширования
